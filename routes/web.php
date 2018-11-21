@@ -13,13 +13,11 @@
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
+    //return view('index');
 });
     
     
-    $router->group(['prefix' => 'api/v1'],  function () use ($router) {
-        $router->get('/', function () use ($router) {
-            return "API RESTful Promociones v 1.0";
-        });
+    
             //routes code promotional
             $router->get('code/{id}',['uses' => 'CodeController@getCode']);
             $router->get('code',['uses' => 'CodeController@getallCode']);
@@ -32,9 +30,16 @@ $router->get('/', function () use ($router) {
             $router->post('create-user',['uses' => 'UsersController@createNewUser']);
             $router->get('get-origin/{id}',['uses' => 'UsersController@getOrigin']);
             $router->post('new-origin',['uses' => 'UsersController@updateOrigin']);
-            
+           
            //routes events
            $router->post('config-radius',['uses' => 'EventsController@updateRadius']);
+           $router->post('validate-code',['uses' => 'EventsController@validateCodeEvent']);
+           //$router->post('validate-code-event',['uses' => 'EventsController@validateCode']);
+           
             
-    });
+           //routes controller views
+           $router->get('home', ['uses' => 'HomeController@inicio']);
+           $router->post('principal',['uses' => 'HomeController@recibir']);
+           
+   
         

@@ -1,6 +1,7 @@
 <?php
 
 use Jcf\Geocode\Geocode;
+use Illuminate\Support\ServiceProvider;
 
 require_once __DIR__.'/../vendor/autoload.php';
 
@@ -88,6 +89,7 @@ $app->singleton(
 //$app->register(GeneaLabs\Phpgmaps\PhpgmapsServiceProvider::class);
 //'Gmaps' => GeneaLabs\Phpgmaps\Facades\PhpgmapsFacade::class;
 $app->register(Jcf\Geocode\GeocodeServiceProvider::class);
+
 
 /*
  |--------------------------------------------------------------------------

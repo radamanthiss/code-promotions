@@ -29,7 +29,7 @@ class User extends Model
     
     public static function getOrigin($id) {
         $str_logTxt = __CLASS__ . "->" . __FUNCTION__ . "::";
-        $str_logTxt .= "RESQUEST::user_id:$id;";
+        $str_logTxt .= "RESQUEST::id:$id;";
         
         $arr_user = DB::select("SELECT ubicacion_actual FROM users where id=:id", ['id' => $id]);
         
@@ -41,4 +41,17 @@ class User extends Model
         
         
     }
+    public static function getUbicationUser($code_id){
+        $str_logTxt = __CLASS__ . "->" . __FUNCTION__ . "::";
+        $str_logTxt .= "RESQUEST_GET_UBICATION_USER::code_id:$code_id;";
+        
+        $arr_ubicUser = DB::select("SELECT * FROM users where code_id=:code_id", ['code_id' => $code_id]);
+        
+        $str_logTxt .= "RESPONSE::" . json_encode($arr_ubicUser);
+        Log::debug($str_logTxt);
+        
+        return current($arr_ubicUser);
+        
+    }
+    
 }
