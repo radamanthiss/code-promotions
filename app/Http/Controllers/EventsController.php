@@ -191,9 +191,13 @@ class EventsController extends Controller{
             $arr_response = ['message' => 'La direccion de origen o destino no se encuentra dentro del rango del evento, imposible redimir codigo'];
         }
         else  {
-            $arr_response = ['message' => 'Direccion origen o destino aceptada, codigo valido para realizar el viaje'];
-           
-        }
+            if ($obj_eventPlace->state =="inactive") {
+                $arr_response = ['message' => 'El codigo ingresado no esta disponible en estos momentos'];
+            }
+            else{
+                $arr_response = ['message' => 'Direccion origen o destino aceptada, codigo valido para realizar el viaje'];
+                }
+            }
         }
         
         Log::debug($str_logTxt);

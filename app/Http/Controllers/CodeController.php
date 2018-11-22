@@ -72,8 +72,8 @@ class CodeController extends Controller
                     'coupon_type' => $request->coupon_type,
                     'state' => $request->state,
                     'quantity_travel' => $request->quantity_travel,
-                    'created_at' => date("Y-m-d hh:mm:ss"),
-                    'updated_at' => date("Y-m-d hh:mm:ss")
+                    'created_at' => date("Y-m-d h:m:s"),
+                    'updated_at' => date("Y-m-d h:m:s")
                 ]);
             }
             

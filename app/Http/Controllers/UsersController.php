@@ -39,8 +39,8 @@ class UsersController extends Controller{
                     'ubicacion_actual' => $request->ubicacion_actual,
                     'lat' => $latitud,
                     'lng' => $longitud,
-                    'created_at' => date("Y-m-d hh:mm:ss"),
-                    'updated_at' => date("Y-m-d hh:mm:ss")
+                    'created_at' => date("Y-m-d h:m:s"),
+                    'updated_at' => date("Y-m-d h:m:s")
                 ]);
             }
             

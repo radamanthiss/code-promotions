@@ -5,17 +5,28 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class CodeTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testCode()
+    /** @test */
+    public function testgetCode()
     {
-        $this->get('code/2');
-        
-        $this->assertEquals(
-            $this->app->version(), $this->response->getContent()
-            );
+        $this->get("code/2");
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure(
+            ['data' =>
+                
+                [
+                    'id',
+                    'code',
+                    'starts_on',
+                    'ends_on',
+                    'coupon_type',
+                    'state',
+                    'quantity_travel'
+                ]
+                
+                
+            ]
+            
+        );
     }
+    
 }
