@@ -20,6 +20,10 @@ class UsersController extends Controller{
             ->where('name', $request->input('name'))
             ->get();
             
+            $response = Geocode::make()->address($request->ubicacion_actual);
+            $latitud=$response->latitude();
+            $longitud=$response->longitude();
+            
             if (!$arrobj_Code->isEmpty()) {
                 $str_logTxt .= "RESPONSE_createUsers: Usuario ya existente" . json_encode($arrobj_Code) . ";";
                 return response()->json(['error' => 'El usuario que trata de crear ya existe.'], Response::HTTP_CONFLICT);
@@ -33,8 +37,8 @@ class UsersController extends Controller{
                     'state' => $request->state,
                     'payment_method' => $request->payment_method,
                     'ubicacion_actual' => $request->ubicacion_actual,
-                    'lat' => $request->lat,
-                    'lng' => $request->lng,
+                    'lat' => $latitud,
+                    'lng' => $longitud,
                     'created_at' => date("Y-m-d hh:mm:ss"),
                     'updated_at' => date("Y-m-d hh:mm:ss")
                 ]);

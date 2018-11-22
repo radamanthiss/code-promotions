@@ -42,4 +42,7 @@ $router->get('/', function () use ($router) {
            $router->post('principal',['uses' => 'HomeController@recibir']);
            
    
-        
+ 
+           
+           
+           

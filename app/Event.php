@@ -1,13 +1,11 @@
 <?php
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class Event extends Model
 {
-    
     /**
      * The attributes that are mass assignable.
      *
@@ -16,7 +14,6 @@ class Event extends Model
     protected $fillable = [
         'code_id','name', 'address','city','place','lat','lng','radio'
     ];
-    
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -26,12 +23,9 @@ class Event extends Model
         'created_at','updated_at'
     ];
     
-    
-    
     public static function getByDistance($lat, $lng, $radio,$code_id)
     {
-        $results = DB::select(DB::raw('SELECT id, ( 3959 * acos( cos( radians(' . $lat . ') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians(lat) ) ) ) AS distance FROM events where code_id='.$code_id.' HAVING distance < ' . $radio . ' ORDER BY distance') );
-        
+        $results = DB::select(DB::raw('SELECT id, ( 6371 * acos( cos( radians(' . $lat . ') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians(' . $lng . ') ) + sin( radians(' . $lat .') ) * sin( radians(lat) ) ) ) AS distance FROM events where code_id='.$code_id.' HAVING distance < ' . $radio . ' ORDER BY distance') );
         return $results;
     }
     

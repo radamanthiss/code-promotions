@@ -91,8 +91,8 @@ class EventsController extends Controller{
         $latitud_destino=$obj_destinyUser->lat;
         $longitud_destino=$obj_destinyUser->lng;
         
-        $obj_validate_originDistance = Event::getDistanceOrigin($latitud_evento, $longitud_evento, $radio);
-        $obj_validate_destinyDistance = Travel::getDistanceDestiny($latitud_evento, $longitud_evento, $radio);
+        $obj_validate_originDistance = Event::getDistanceOrigin($latitud_evento, $longitud_evento, $radio,$request->code_id);
+        $obj_validate_destinyDistance = Travel::getDistanceDestiny($latitud_evento, $longitud_evento, $radio,$obj_user->id);
         
         
         if(empty($obj_validate_originDistance) && empty($obj_validate_destinyDistance)){
