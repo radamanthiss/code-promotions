@@ -34,6 +34,7 @@ $router->get('/', function () use ($router) {
            //routes events
            $router->post('config-radius',['uses' => 'EventsController@updateRadius']);
            $router->post('validate-code',['uses' => 'EventsController@validateCodeEvent']);
+           $router->post('new-event',['uses' => 'EventsController@newEvent']);
            //$router->post('validate-code-event',['uses' => 'EventsController@validateCode']);
            
             

@@ -62,6 +62,52 @@ class EventsController extends Controller{
         return response()->json($obj_user);
     }
     
+    public function newEvent(Request $request) {
+        $str_logTxt = __CLASS__ . "->" . __FUNCTION__ . "::";
+        $str_logTxt .= "RESQUEST: " . json_encode($request->toArray()) . ";";
+        try {
+            //Busca si existe el codigo que se trata de crear
+            $arrobj_Code = Event::where('code_id', $request->input('code_id'))
+            ->where('name', $request->input('name'))
+            ->get();
+            
+            $response = Geocode::make()->address($request->address);
+            $latitud=$response->latitude();
+            $longitud=$response->longitude();
+            
+            if (!$arrobj_Code->isEmpty()) {
+                $str_logTxt .= "RESPONSE_createEvent: Evento ya existe" . json_encode($arrobj_Code) . ";";
+                return response()->json(['error' => 'El evento que trata de generar ya existe.'], Response::HTTP_CONFLICT);
+            }
+            else {
+                
+                $obj_Code = DB::table('events')->insert([
+                    'code_id' => $request->code_id,
+                    'name' => $request->name,
+                    'address' => $request->address,
+                    'city' => $request->city,
+                    'place' => $request->place,
+                    'lat' => $latitud,
+                    'lng' => $longitud,
+                    'radio' => $request->radio,
+                    'created_at' => date("Y-m-d h:m:s"),
+                    'updated_at' => date("Y-m-d h:m:s")
+                ]);
+            }
+            
+        } catch (\Exception $e) {
+            $str_logTxt .= "[ERROR= " . $e->getMessage() . "];";
+            Log::debug($str_logTxt);
+            return response()->json(['error' => 'Error interno en servidor.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+        
+        $str_logTxt .= "RESPONSE_createNewEvent: " . json_encode($obj_Code) . ";";
+        Log::debug($str_logTxt);
+        
+        return response()->json($obj_Code);
+    }
+    
+    
     public function validateCodeEvent(Request $request){
         $str_logTxt = __CLASS__ . "->" . __FUNCTION__ . "::";
         $str_logTxt .= "RESQUEST: " . json_encode($request->toArray()) . ";";
