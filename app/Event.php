@@ -31,11 +31,11 @@ class Event extends Model
     
     public static function getPlaceEvent($code_id){
         $str_logTxt = __CLASS__ . "->" . __FUNCTION__ . "::";
-        $str_logTxt .= "RESQUEST_GET_EVENT_PLACE::event_by_code_id:$code_id;";
+        $str_logTxt .= "REQUEST_GET_EVENT_PLACE::event_by_code_id:$code_id;\n";
         
         $arr_event = DB::select("SELECT * FROM events where code_id=:code_id", ['code_id' => $code_id]);
         
-        $str_logTxt .= "RESPONSE::" . json_encode($arr_event);
+        $str_logTxt .= "RESPONSE_getPlaceEvent" . json_encode($arr_event);
         Log::debug($str_logTxt);
         
         return current($arr_event);
@@ -43,10 +43,10 @@ class Event extends Model
     
     public static function getDistanceOrigin($lat,$lng,$radio,$code_id) {
         $str_logTxt = __CLASS__ . "->" . __FUNCTION__ . "::";
-        $str_logTxt .= "RESQUEST_GET_DISTANCE_DESTINY::LAT:$lat, LNG:$lng, RADIO:$radio, CODE_ID:$code_id;";
+        $str_logTxt .= "REQUEST_GET_DISTANCE_DESTINY::LAT:$lat, LNG:$lng, RADIO:$radio, CODE_ID:$code_id;\n";
         
         $arr_distance = DB::select("SELECT id,code_id,ubicacion_actual, (6371 * ACOS( SIN(RADIANS(lat)) * SIN(RADIANS($lat)) + COS(RADIANS(lng -  $lng)) * COS(RADIANS(lat)) * COS(RADIANS($lat)) ) ) AS distance FROM users where code_id=$code_id HAVING distance < $radio ORDER BY distance ASC");
-        $str_logTxt .= "RESPONSE::" . json_encode($arr_distance);
+        $str_logTxt .= "RESPONSE_getDistanceOrigin" . json_encode($arr_distance);
         Log::debug($str_logTxt);
         
         return current($arr_distance);
@@ -55,11 +55,11 @@ class Event extends Model
     
     public static function getPlacebyCode($code) {
         $str_logTxt = __CLASS__ . "->" . __FUNCTION__ . "::";
-        $str_logTxt .= "RESQUEST_GET_PLACE_BY_CODE::event_by_code:$code;";
+        $str_logTxt .= "REQUEST_GET_PLACE_BY_CODE::event_by_code:$code;\n";
         
         $arr_event = DB::select("SELECT c.id,c.code,c.state,c.quantity_travel,c.starts_on,c.ends_on,e.name,e.address,e.lat,e.lng,e.radio FROM codes c LEFT JOIN events e on c.id = e.code_id where c.code=:code", ['code' => $code]);
         
-        $str_logTxt .= "RESPONSE::" . json_encode($arr_event);
+        $str_logTxt .= "RESPONSE_getPlaceCode::" . json_encode($arr_event);
         Log::debug($str_logTxt);
         
         return current($arr_event);

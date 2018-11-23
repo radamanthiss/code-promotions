@@ -11,13 +11,6 @@ Laravel Lumen is a stunningly fast PHP micro-framework for building web applicat
 ## Official Documentation
 
 Documentation for the framework can be found on the [Lumen website](http://lumen.laravel.com/docs).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
 The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
 
 ## Instalacion y configuracion XAMPP
@@ -29,6 +22,15 @@ composer global require "laravel/lumen-installer"
 
 Al finalizar crear el proyecto con la sentencia composer create-project --prefer-dist laravel/lumen code-promotions o
 hacer la clonación en el IDE favorito desde GIT en la ruta [clone github](https://github.com/radamanthiss/code-promotions.git)
+
+# Recomendaciones
+
+Antes de empezar asegurarse de tener las conexiones habilitadas para poder ejecutar el xampp control y asi obtener las variables de entorno
+se puede crear directamente la base de datos en localhost/phpmyadmin o usando los archivos enviados en el proyecto que son los exportados de la base de datos usada durante la realización del proyecto, si se crea una nueva base de datos en el phpmyadmin se deben modificar las variables en el archivo .env para que se puedan ejecutar todas las pruebas de manera exitosa.
+
+Para poder ejecutar la parte front del proyecto inicialmente se debe revisar los flujos, como recomendacion inicial si se requiere hacer las pruebas con un nuevo codigo promocional, ejecutar los diferentes metodos configurados en las rutas y llamar al api rest de cada peticion pasando por crear un nuevo codigo, un nuevo evento, asociar un usuario a un codigo, un viaje a un usuario etc. Importante asignar el codigo al usuario antes de poder ejecutar la aplicación web ya que como no se tiene la información del usuario, para fines practico se creo una funcion que crea usuarios y en la cual se puede asignar nombre, email, state, y payment_method según se requiera, se podria modificar para que se inserte el usuario si no existe al momento de enviar el formulario, pero los campos del usuario en la tabla no permiten nulos y por eso no se podria inicialmente dejar estos campos vacios. 
+
+cualquier duda o pregunta se puede escribir al correo ulkevinb@gmail.com o al skype startek13
 
 ## Pasos iniciales para ejecutar el proyecto
 Desde una terminal de linea de comando ubicarse sobre la carpeta del proyecto creado con el comando cd C:\Users\Usuario\\{espacio de trabajo}\code-promotions\, luego ejecutar el comando php -S localhost:8000 -t public para ejecutar el proyecto y poder visualizar y hacer los llamados del api desde el navegador o el entorno preferido para envio de peticiones HTTP REST. se verá de la siguiente manera:
@@ -91,7 +93,7 @@ Aquí vemos un ejemplo de CodeController.php, explicaremos cada funcion de cada c
 
 Para cada metodo que vayamos a usar para realizar peticiones, hay que configurar la ruta para poder hacer el llamado, esto se hace en el archivo que se encuentra en routes/web.php, aquí configuramos el tipo de peticion y a que función de los controladores apuntará cada ruta.
 
-![rutas](https://user-images.githubusercontent.com/22681704/48911208-3471f000-ee40-11e8-9777-0a008b557b5d.PNG)
+![rutas_finales](https://user-images.githubusercontent.com/22681704/48950438-220fb900-ef09-11e8-8ed1-cfcb53bbca98.PNG)
 
 
 

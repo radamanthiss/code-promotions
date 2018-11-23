@@ -158,7 +158,7 @@ class EventsController extends Controller{
         
         if(empty($obj_eventPlace=Event::getPlacebyCode($code))){
                 
-            $str_logTxt .= "RESPONSE: El codigo que acaba de ingresar no es valido;";
+            $str_logTxt .= "RESPONSE: El codigo que acaba de ingresar no es valido;\n";
             Log::debug($str_logTxt);
             
             
@@ -174,24 +174,25 @@ class EventsController extends Controller{
         $latitud=$response->latitude();
         $longitud=$response->longitude();
         
-        $obj_users = User::find($obj_eventPlace->id);
+        //$obj_users = User::find($obj_eventPlace->id);
+        $obj_users = User::getUbicationUser($obj_eventPlace->id);
         if (is_null($obj_users)) {
-            $str_logTxt .= "RESPONSE: El usuario que intenta modificar no existe;";
+            $str_logTxt .= "RESPONSE: El codigo no se encuentra asociado a un usuario o no existe;\n";
             Log::debug($str_logTxt);
             
-            return response()->json(['error' => 'El usuario que intenta modificar no existe'], Response::HTTP_NOT_FOUND);
+            return response()->json(['error' => 'El codigo no se encuentra asociado a un usuario o no existe'], Response::HTTP_NOT_FOUND);
         }
         
-        //actualiza parametros en la base de datos
+        //actualiza parametros en la base de datos Cra 56a #61-25  Cra 56a #61-25
         
         DB::table('users')
-        ->where('id', $obj_eventPlace->id)
+        ->where('code_id', $obj_eventPlace->id)
         ->update(['ubicacion_actual' => $new_origin,
             'lat' => $latitud,
             'lng' => $longitud
         ]);
         
-        $str_logTxt .= "RESPONSE: " . json_encode($obj_users) . ";";
+        $str_logTxt .= "RESPONSE_getUbicationUser1: " . json_encode($obj_users) . ";\n";
         Log::debug($str_logTxt);
         
         $obj_user=User::getUbicationUser($obj_eventPlace->id);
@@ -210,18 +211,37 @@ class EventsController extends Controller{
         $latitud_destiny=$destiny->latitude();
         $longitud_destiny=$destiny->longitude();
         //obtenemos el destino del usuario
+        $obj_destinyUser=Travel::getDestiny($obj_users->id);
+        
+        $str_logTxt .="RESPONSE_destinyUser1: " .json_encode($obj_destinyUser) .";\n";
+        Log::debug($str_logTxt);
+        
+        $total_value = mt_rand(10000,100000);
+        
+        if (empty($obj_destinyUser)){
+            $obj_Code = DB::table('travels')->insert([
+                'user_id' => $obj_user->id,
+                'total_value' => $total_value,
+                'address_destiny' => $address_destiny,
+                'lat' => $latitud_destiny,
+                'lng' => $longitud_destiny,
+                'created_at' => date("Y-m-d h:m:s"),
+                'updated_at' => date("Y-m-d h:m:s")
+            ]);
+            $str_logTxt .= "RESPONSE_createNewTravel: " . json_encode($obj_Code) . ";\n";
+            Log::debug($str_logTxt);
+        }
+        
+       
+        
         DB::table('travels')
-        ->where('user_id', $obj_user->id)
+        ->where('user_id', $obj_users->id)
         ->update(['address_destiny' => $new_destiny,
             'lat' => $latitud_destiny,
             'lng' => $longitud_destiny
         ]);
         
-        
-        $obj_destinyUser=Travel::getDestiny($obj_user->id);
-        
-        
-        $str_logTxt .= "RESPONSE: " . json_encode($obj_destinyUser) . ";";
+        $str_logTxt .= "RESPONSE_destinyUser2: " . json_encode($obj_destinyUser) . ";\n";
         Log::debug($str_logTxt);
         //direccion_evento
         $address_event=$obj_eventPlace->address;
@@ -248,7 +268,7 @@ class EventsController extends Controller{
         
         Log::debug($str_logTxt);
         
-        if(!empty($obj_user) && !empty($obj_destinyUser)){
+        if(!empty($obj_users) && !empty($obj_destinyUser)){
             $arreglo =[$arr_response,$obj_eventPlace,$obj_user,$obj_destinyUser];
         }
         else{
