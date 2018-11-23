@@ -23,7 +23,7 @@ composer global require "laravel/lumen-installer"
 Al finalizar crear el proyecto con la sentencia composer create-project --prefer-dist laravel/lumen code-promotions o
 hacer la clonación en el IDE favorito desde GIT en la ruta [clone github](https://github.com/radamanthiss/code-promotions.git)
 
-# Recomendaciones
+# RECOMENDACIONES IMPORTANTES !!
 
 Antes de empezar asegurarse de tener las conexiones habilitadas para poder ejecutar el xampp control y asi obtener las variables de entorno
 se puede crear directamente la base de datos en localhost/phpmyadmin o usando los archivos enviados en el proyecto que son los exportados de la base de datos usada durante la realización del proyecto, si se crea una nueva base de datos en el phpmyadmin se deben modificar las variables en el archivo .env para que se puedan ejecutar todas las pruebas de manera exitosa.
